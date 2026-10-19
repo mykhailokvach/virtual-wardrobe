@@ -47,7 +47,8 @@ describe('wardrobe view', () => {
 
     const link = await screen.findByRole('link', { name: 'Open Top shelf' });
     expect(link).toHaveAttribute('href', `/wardrobes/${wardrobe.id}/sections/shelf`);
-    expect(await screen.findByText('👕 1 · 👟 2')).toBeInTheDocument();
+    expect(await screen.findByRole('img', { name: 'Clothes: 1' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Shoes: 2' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Add item to Top shelf' })).toBeInTheDocument();
   });
 

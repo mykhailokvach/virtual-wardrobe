@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { buttonClass } from '../../components/Button';
 import { PhotoImg } from '../../components/PhotoImg';
+import { PlusIcon } from '../../components/icons';
 import { useWardrobes } from '../../data/hooks';
 
 export function WardrobeListPage() {
@@ -16,6 +17,7 @@ export function WardrobeListPage() {
           )}
         </h1>
         <Link to="/wardrobes/new" className={buttonClass()}>
+          <PlusIcon className="h-4 w-4" />
           New wardrobe
         </Link>
       </div>

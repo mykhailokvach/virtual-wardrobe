@@ -40,7 +40,7 @@ test('create a wardrobe, trace sections, add an item and find it', async ({ page
   await addSheet.getByRole('radio', { name: /shoes/i }).click();
   await addSheet.getByLabel(/name/i).fill('Sneakers');
   await addSheet.getByRole('button', { name: 'Save' }).click();
-  await expect(page.getByText('👟 1')).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Shoes: 1' })).toBeVisible();
 
   await page.getByRole('link', { name: 'Open Section 1' }).click();
   const sheet = page.getByRole('dialog', { name: 'Section 1' });

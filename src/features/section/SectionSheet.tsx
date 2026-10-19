@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { buttonClass, segmentClass, segmentGroupClass } from '../../components/Button';
 import { ImagePickerButton } from '../../components/ImagePickerButton';
+import { PlusIcon } from '../../components/icons';
 import { Sheet } from '../../components/Sheet';
 import { PhotoImg } from '../../components/PhotoImg';
 import { useItems, useSections } from '../../data/hooks';
@@ -49,7 +50,8 @@ export function SectionSheet() {
         onClose={close}
         footer={
           <ImagePickerButton multiple onPick={setAdding} className={buttonClass('primary', 'w-full')}>
-            + Add clothes or shoes
+            <PlusIcon className="h-4 w-4" />
+            Add clothes or shoes
           </ImagePickerButton>
         }
       >

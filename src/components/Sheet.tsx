@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import { Button } from './Button';
+import { CloseIcon } from './icons';
 
 /** Bottom sheet on phones, right-hand panel from the `md` breakpoint. */
 export function Sheet({
@@ -32,8 +33,8 @@ export function Sheet({
       >
         <header className="flex items-center justify-between gap-2 border-b border-line py-1 pr-1 pl-4">
           <h2 className="caps truncate text-lg">{title}</h2>
-          <Button variant="ghost" onClick={onClose} aria-label="Close">
-            ✕
+          <Button variant="ghost" className="w-11 px-0" onClick={onClose} aria-label="Close">
+            <CloseIcon />
           </Button>
         </header>
         <div className="flex-1 overflow-y-auto p-4">{children}</div>

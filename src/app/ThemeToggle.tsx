@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MoonIcon, SunIcon } from '../components/icons';
 
 type Theme = 'dark' | 'light';
 
@@ -30,7 +31,7 @@ export function ThemeToggle() {
       aria-label={`Switch to ${next} theme`}
       className="flex h-9 w-9 items-center justify-center border border-line2 text-text2 transition hover:border-line3 hover:text-text"
     >
-      {theme === 'dark' ? '☀' : '☾'}
+      {theme === 'dark' ? <SunIcon className="h-4.5 w-4.5" /> : <MoonIcon className="h-4.5 w-4.5" />}
     </button>
   );
 }

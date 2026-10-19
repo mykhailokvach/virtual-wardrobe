@@ -35,7 +35,7 @@ export function TraceRect({
         selected ? 'z-10 border-accent bg-accent/20' : 'border-[#e9e7e2] bg-[#e9e7e2]/10'
       }`}
     >
-      <span className="caps pointer-events-none absolute top-1.5 left-1.5 max-w-[calc(100%-0.75rem)] truncate bg-[#141516]/80 px-1.5 py-0.5 text-[#e9e7e2] text-xs">
+      <span className="caps pointer-events-none absolute top-1.5 left-1.5 max-w-[calc(100%-0.75rem)] truncate bg-[#141516]/80 px-1.5 py-0.5 text-[#e9e7e2] text-[8px]">
         {label}
       </span>
       {selected &&
@@ -43,7 +43,7 @@ export function TraceRect({
           <span
             key={corner}
             onPointerDown={(event) => onHandlePointerDown(event, corner)}
-            className={`absolute h-6 w-6 border-2 border-[#141516] bg-accent ${cornerClass[corner]}`}
+            className={`absolute h-4 w-4 border-2 border-[#141516] bg-accent ${cornerClass[corner]}`}
           />
         ))}
     </div>

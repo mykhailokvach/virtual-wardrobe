@@ -4,6 +4,7 @@ import { NotFound } from '../../app/NotFound';
 import { Button, buttonClass } from '../../components/Button';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { PhotoStage } from '../../components/PhotoStage';
+import { TrashIcon } from '../../components/icons';
 import { useToast } from '../../components/Toast';
 import { useDeleteWardrobe, usePhoto, useSectionCounts, useSections, useWardrobe } from '../../data/hooks';
 import { errorMessage } from '../../lib/errors';
@@ -37,8 +38,8 @@ export function WardrobeViewPage() {
           <Link to={`/wardrobes/${current.id}/edit`} className={buttonClass('secondary')}>
             Edit layout
           </Link>
-          <Button variant="danger" aria-label="Delete wardrobe" onClick={() => setConfirmDelete(true)}>
-            Delete
+          <Button variant="danger" className="w-11 px-0" aria-label="Delete wardrobe" onClick={() => setConfirmDelete(true)}>
+            <TrashIcon />
           </Button>
         </div>
       </div>
