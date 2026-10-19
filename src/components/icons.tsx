@@ -59,6 +59,16 @@ export function MoonIcon(props: IconProps) {
   );
 }
 
+/** Two boxes snapped to shared guide lines: the "align sections" action. */
+export function AlignIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M4 2v20M20 2v20" strokeDasharray="2 2" />
+      <path d="M8 5h8v5H8zM8 14h8v5H8z" />
+    </Icon>
+  );
+}
+
 export function PencilIcon(props: IconProps) {
   return (
     <Icon {...props}>

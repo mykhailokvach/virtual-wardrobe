@@ -66,6 +66,63 @@ export function sortSections<T extends { rect: Rect }>(sections: readonly T[]): 
   return rows.flatMap((row) => row.sort((a, b) => a.rect.x - b.rect.x));
 }
 
+/**
+ * Edges of the same kind closer than this (as a fraction of the photo) are snapped together by
+ * `alignSections`. Matches MIN_SIZE: differences under 3% of the photo are treated as drawing noise.
+ */
+export const ALIGN_TOLERANCE = MIN_SIZE;
+
+/**
+ * Groups values that lie within `tolerance` of the smallest value in their group and replaces each
+ * with its group's average. Measuring from the group's first value stops long chains from drifting.
+ */
+function snapValues(values: readonly number[], tolerance: number): number[] {
+  const order = values.map((_, index) => index).sort((a, b) => values[a] - values[b]);
+  const result = [...values];
+  let group: number[] = [];
+  const flush = () => {
+    const mean = group.reduce((sum, index) => sum + values[index], 0) / group.length;
+    for (const index of group) result[index] = mean;
+    group = [];
+  };
+  for (const index of order) {
+    if (group.length > 0 && values[index] - values[group[0]] > tolerance) flush();
+    group.push(index);
+  }
+  if (group.length > 0) flush();
+  return result;
+}
+
+/**
+ * Tidies hand-drawn sections: left edges that nearly line up are snapped together, and likewise
+ * right, top and bottom edges. Different kinds are never merged, so gaps between neighbours stay.
+ * If snapping would make a section smaller than `min` on an axis, it keeps its original extent there.
+ */
+export function alignSections<T extends { rect: Rect }>(
+  sections: readonly T[],
+  tolerance = ALIGN_TOLERANCE,
+  min = MIN_SIZE,
+): T[] {
+  const lefts = snapValues(sections.map((s) => s.rect.x), tolerance);
+  const rights = snapValues(sections.map((s) => s.rect.x + s.rect.w), tolerance);
+  const tops = snapValues(sections.map((s) => s.rect.y), tolerance);
+  const bottoms = snapValues(sections.map((s) => s.rect.y + s.rect.h), tolerance);
+
+  /** The snapped start and size on one axis, or the original ones if nothing moved or it would get too small. */
+  function axis(start: number, size: number, snappedStart: number, snappedEnd: number): [number, number] {
+    const moved = snappedStart !== start || snappedEnd !== start + size;
+    const snappedSize = snappedEnd - snappedStart;
+    return moved && snappedSize >= min ? [snappedStart, snappedSize] : [start, size];
+  }
+
+  return sections.map((section, i) => {
+    const { rect } = section;
+    const [x, w] = axis(rect.x, rect.w, lefts[i], rights[i]);
+    const [y, h] = axis(rect.y, rect.h, tops[i], bottoms[i]);
+    return { ...section, rect: { x, y, w, h } };
+  });
+}
+
 export function rectToStyle(rect: Rect): { left: string; top: string; width: string; height: string } {
   return {
     left: `${rect.x * 100}%`,

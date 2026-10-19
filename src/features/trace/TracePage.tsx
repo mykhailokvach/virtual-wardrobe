@@ -3,11 +3,12 @@ import { useNavigate, useParams } from 'react-router';
 import { NotFound } from '../../app/NotFound';
 import { Button } from '../../components/Button';
 import { PhotoStage } from '../../components/PhotoStage';
+import { AlignIcon } from '../../components/icons';
 import { useToast } from '../../components/Toast';
 import { usePhoto, useSaveSections, useSectionCounts, useSections, useWardrobe } from '../../data/hooks';
 import type { Photo, Section, SectionCounts, SectionDraft, SectionRemovals, Wardrobe } from '../../data/types';
 import { errorMessage } from '../../lib/errors';
-import { rectToStyle, sortSections } from '../../lib/geometry';
+import { alignSections, rectToStyle, sortSections, type Rect } from '../../lib/geometry';
 import { sectionLabel } from '../../lib/labels';
 import { RemoveSectionDialog } from './RemoveSectionDialog';
 import { TraceRect } from './TraceRect';
@@ -93,6 +94,13 @@ function TraceEditor({
     setDrafts((prev) => prev.map((s) => (s.id === section.id ? { ...s, name } : s)));
   }
 
+  function handleAlign() {
+    const aligned = alignSections(drafts);
+    const changed = aligned.some((section, i) => !sameRect(section.rect, drafts[i].rect));
+    if (changed) setDrafts(aligned);
+    toast(changed ? 'Sections aligned' : 'Already aligned');
+  }
+
   function handleDone() {
     saveSections.mutate(
       { drafts, removals },
@@ -114,7 +122,13 @@ function TraceEditor({
           Done
         </Button>
       </div>
-      <p className="eyebrow text-center">Drag on the photo to mark a shelf, drawer or rail.</p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="eyebrow">Drag on the photo to mark a shelf, drawer or rail.</p>
+        <Button variant="secondary" className="shrink-0" onClick={handleAlign} disabled={drafts.length < 2}>
+          <AlignIcon className="h-4 w-4" />
+          Align
+        </Button>
+      </div>
 
       <PhotoStage
         ref={stageRef}
@@ -175,4 +189,8 @@ function TraceEditor({
       )}
     </div>
   );
+}
+
+function sameRect(a: Rect, b: Rect): boolean {
+  return a.x === b.x && a.y === b.y && a.w === b.w && a.h === b.h;
 }
