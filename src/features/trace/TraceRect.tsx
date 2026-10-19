@@ -31,11 +31,11 @@ export function TraceRect({
       aria-pressed={selected}
       onPointerDown={onPointerDown}
       style={rectToStyle(section.rect)}
-      className={`absolute cursor-move rounded-sm border-2 shadow-[0_0_0_1px_rgba(0,0,0,0.4)] ${
-        selected ? 'z-10 border-amber-400 bg-amber-300/25' : 'border-white bg-white/15'
+      className={`absolute cursor-move border-2 shadow-[0_0_0_1px_rgba(0,0,0,0.45)] ${
+        selected ? 'z-10 border-accent bg-accent/20' : 'border-[#e9e7e2] bg-[#e9e7e2]/10'
       }`}
     >
-      <span className="pointer-events-none absolute top-1 left-1 max-w-[calc(100%-0.5rem)] truncate rounded bg-black/60 px-1.5 py-0.5 text-xs text-white">
+      <span className="caps pointer-events-none absolute top-1.5 left-1.5 max-w-[calc(100%-0.75rem)] truncate bg-[#141516]/80 px-1.5 py-0.5 text-[#e9e7e2] text-xs">
         {label}
       </span>
       {selected &&
@@ -43,7 +43,7 @@ export function TraceRect({
           <span
             key={corner}
             onPointerDown={(event) => onHandlePointerDown(event, corner)}
-            className={`absolute h-6 w-6 rounded-full border-2 border-amber-400 bg-white shadow ${cornerClass[corner]}`}
+            className={`absolute h-6 w-6 border-2 border-[#141516] bg-accent ${cornerClass[corner]}`}
           />
         ))}
     </div>

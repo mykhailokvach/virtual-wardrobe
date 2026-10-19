@@ -32,13 +32,13 @@ export function WardrobeViewPage() {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="truncate text-xl font-semibold">{current.name}</h1>
+        <h1 className="caps truncate text-2xl">{current.name}</h1>
         <div className="flex shrink-0 gap-1">
           <Link to={`/wardrobes/${current.id}/edit`} className={buttonClass('secondary')}>
             Edit layout
           </Link>
-          <Button variant="ghost" aria-label="Delete wardrobe" onClick={() => setConfirmDelete(true)}>
-            🗑
+          <Button variant="danger" aria-label="Delete wardrobe" onClick={() => setConfirmDelete(true)}>
+            Delete
           </Button>
         </div>
       </div>
@@ -64,8 +64,8 @@ export function WardrobeViewPage() {
       </PhotoStage>
 
       {sectionList.length === 0 && (
-        <div className="rounded-2xl bg-white p-6 text-center ring-1 ring-stone-200">
-          <p className="text-stone-700">No sections yet.</p>
+        <div className="border border-dashed border-line2 p-6 text-center">
+          <p className="text-text3">No sections yet.</p>
           <Link to={`/wardrobes/${current.id}/edit`} className={buttonClass('primary', 'mt-3')}>
             Trace sections
           </Link>

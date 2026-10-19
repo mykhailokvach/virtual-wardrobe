@@ -16,7 +16,7 @@ export function StorageBanner() {
 
   if (available) return null;
   return (
-    <p role="alert" className="bg-amber-100 px-4 py-2 text-sm text-amber-900">
+    <p role="alert" className="border-b border-line border-l-[3px] border-l-accent bg-row-sel px-4 py-2 text-sm text-text2">
       Your browser is blocking storage, so wardrobes won't be saved. Try leaving private browsing mode.
     </p>
   );

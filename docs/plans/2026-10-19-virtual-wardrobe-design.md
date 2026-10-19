@@ -93,6 +93,14 @@ src/
   components/     Button, Sheet, ConfirmDialog, ImagePickerButton, Toast
 ```
 
+## Visual style
+
+A dark, technical workshop look, modelled on the FitForge drawer planner (its visual language only, not its branding):
+- Palette as CSS variables in `src/index.css`, mapped into Tailwind (`bg-surface`, `text-muted`, `border-line2`, …): charcoal background, warm off-white text, one yellow accent (`#f2cf3a`) for primary actions and selection. Dark is the default; a header toggle switches to the warm-paper light theme (`data-theme` on `<html>`, remembered in localStorage and applied before first paint).
+- Type: Sofia Sans for body text, Sofia Sans Condensed in bold uppercase with letter-spacing for buttons, tabs and titles (`caps`, `eyebrow` utilities), JetBrains Mono for counts. Fonts are self-hosted with `@fontsource` so the app makes no third-party requests.
+- Square corners and 1px hairline borders throughout; primary buttons have a darker 2px bottom edge; dialogs and sheets have a 3px accent bar on top; segmented controls invert the selected option.
+- Overlays drawn on the wardrobe photo use fixed charcoal chips and off-white outlines in both themes so they stay legible on any photo.
+
 ## Error handling
 
 - Image that fails to decode or is in an unsupported format (e.g. HEIC on desktop): show a toast and save nothing.

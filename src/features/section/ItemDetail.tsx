@@ -35,20 +35,20 @@ export function ItemDetail({ item, sections, onClose }: { item: Item; sections: 
 
   return (
     <Dialog title={label} onClose={close}>
-      {url && <img src={url} alt={label} className="max-h-[40dvh] w-full rounded-xl bg-stone-100 object-contain" />}
+      {url && <img src={url} alt={label} className="max-h-[40dvh] w-full border border-line bg-plate object-contain" />}
       <div className="mt-4 flex flex-col gap-3">
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="eyebrow flex flex-col gap-1.5">
           Name
           <input
             value={name}
             onChange={(event) => setName(event.target.value)}
             onBlur={saveName}
             maxLength={60}
-            className="rounded-lg border border-stone-300 px-3 py-2 text-base"
+            className="field"
           />
         </label>
         <TypeToggle value={item.type} onChange={(type) => update({ type })} />
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="eyebrow flex flex-col gap-1.5">
           Section
           <select
             value={item.sectionId}
@@ -58,7 +58,7 @@ export function ItemDetail({ item, sections, onClose }: { item: Item; sections: 
                 onClose();
               })
             }
-            className="rounded-lg border border-stone-300 px-2 py-2 text-base"
+            className="field"
           >
             {sections.map((section) => (
               <option key={section.id} value={section.id}>
@@ -77,7 +77,7 @@ export function ItemDetail({ item, sections, onClose }: { item: Item; sections: 
               Really delete?
             </Button>
           ) : (
-            <Button variant="ghost" className="text-red-600" onClick={() => setConfirmingDelete(true)}>
+            <Button variant="danger" onClick={() => setConfirmingDelete(true)}>
               Delete
             </Button>
           )}

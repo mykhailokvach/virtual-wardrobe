@@ -36,10 +36,10 @@ export function PhotoStage({
           src={url}
           alt={alt}
           draggable={false}
-          className="absolute inset-0 h-full w-full rounded-lg object-cover select-none"
+          className="absolute inset-0 h-full w-full object-cover outline-1 outline-line2 select-none"
         />
       ) : (
-        <div className="absolute inset-0 animate-pulse rounded-lg bg-stone-200" />
+        <div className="absolute inset-0 animate-pulse bg-plate" />
       )}
       {children}
     </div>

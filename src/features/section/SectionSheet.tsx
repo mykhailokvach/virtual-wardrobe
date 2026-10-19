@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { buttonClass } from '../../components/Button';
+import { buttonClass, segmentClass, segmentGroupClass } from '../../components/Button';
 import { ImagePickerButton } from '../../components/ImagePickerButton';
 import { Sheet } from '../../components/Sheet';
 import { PhotoImg } from '../../components/PhotoImg';
@@ -33,7 +33,7 @@ export function SectionSheet() {
   if (!section) {
     return (
       <Sheet title="Not found" onClose={close}>
-        <p className="text-stone-600">This section doesn't exist anymore.</p>
+        <p className="text-text3">This section doesn't exist anymore.</p>
       </Sheet>
     );
   }
@@ -53,16 +53,14 @@ export function SectionSheet() {
           </ImagePickerButton>
         }
       >
-        <div className="flex gap-2">
+        <div className={segmentGroupClass}>
           {FILTERS.map((f) => (
             <button
               key={f.value}
               type="button"
               aria-pressed={filter === f.value}
               onClick={() => setFilter(f.value)}
-              className={`rounded-full px-3 py-1.5 text-sm ${
-                filter === f.value ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-700'
-              }`}
+              className={segmentClass(filter === f.value)}
             >
               {f.label}
             </button>
@@ -70,7 +68,7 @@ export function SectionSheet() {
         </div>
 
         {items.data && visible.length === 0 && (
-          <p className="py-8 text-center text-sm text-stone-500">
+          <p className="py-8 text-center text-sm text-muted">
             {filter === 'all' ? 'Nothing here yet.' : 'No items of this type.'}
           </p>
         )}
@@ -82,7 +80,7 @@ export function SectionSheet() {
                 <button
                   type="button"
                   onClick={() => setOpenItemId(item.id)}
-                  className="block w-full overflow-hidden rounded-xl bg-stone-100"
+                  className="block w-full overflow-hidden border border-line bg-plate transition hover:border-accent"
                 >
                   <PhotoImg photoId={item.photoId} alt={itemLabel(item)} className="aspect-square w-full object-cover" />
                 </button>

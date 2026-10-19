@@ -14,14 +14,14 @@ export function Dialog({ title, onClose, children }: { title: string; onClose: (
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
+      <div className="absolute inset-0 bg-overlay" onClick={onClose} aria-hidden="true" />
       <section
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="relative max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-5 shadow-xl"
+        className="relative max-h-[90dvh] w-full max-w-md overflow-y-auto border border-line2 border-t-[3px] border-t-accent bg-surface p-5 shadow-panel"
       >
-        <h2 className="mb-3 text-lg font-semibold">{title}</h2>
+        <h2 className="caps mb-3 text-2xl leading-tight">{title}</h2>
         {children}
       </section>
     </div>

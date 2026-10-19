@@ -45,22 +45,22 @@ export function NewWardrobePage() {
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col gap-4">
-      <h1 className="text-xl font-semibold">New wardrobe</h1>
+      <h1 className="caps text-2xl">New wardrobe</h1>
 
-      <label className="flex flex-col gap-1 text-sm font-medium">
+      <label className="eyebrow flex flex-col gap-1.5">
         Name
         <input
           value={name}
           onChange={(event) => setName(event.target.value)}
           maxLength={60}
-          className="rounded-xl border border-stone-300 px-3 py-2 text-base"
+          className="field"
         />
       </label>
 
       {previewUrl ? (
-        <img src={previewUrl} alt="Wardrobe photo preview" className="max-h-[50dvh] w-full rounded-xl bg-stone-100 object-contain" />
+        <img src={previewUrl} alt="Wardrobe photo preview" className="max-h-[50dvh] w-full border border-line bg-plate object-contain" />
       ) : (
-        <div className="flex aspect-[3/4] max-h-[50dvh] w-full items-center justify-center rounded-xl border-2 border-dashed border-stone-300 p-6 text-center text-sm text-stone-500">
+        <div className="flex aspect-[3/4] max-h-[50dvh] w-full items-center justify-center border border-dashed border-line2 p-6 text-center text-sm text-muted">
           {processing ? 'Processing…' : 'Photograph your whole wardrobe with the doors open.'}
         </div>
       )}

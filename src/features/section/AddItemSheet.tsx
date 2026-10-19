@@ -30,9 +30,9 @@ function writeLastType(type: ItemType) {
 function PhotoPreview({ photo, large }: { photo: NewPhoto; large: boolean }) {
   const url = useObjectUrl(photo);
   const className = large
-    ? 'col-span-3 max-h-64 w-full rounded-xl bg-stone-100 object-contain'
-    : 'aspect-square w-full rounded-xl object-cover';
-  return url ? <img src={url} alt="" className={className} /> : <div className={`${className} bg-stone-100`} />;
+    ? 'col-span-3 max-h-64 w-full border border-line bg-plate object-contain'
+    : 'aspect-square w-full border border-line object-cover';
+  return url ? <img src={url} alt="" className={className} /> : <div className={`${className} bg-plate`} />;
 }
 
 export function AddItemSheet({
@@ -103,7 +103,7 @@ export function AddItemSheet({
       }
     >
       {!photos ? (
-        <p className="py-8 text-center text-sm text-stone-500">Preparing photos…</p>
+        <p className="py-8 text-center text-sm text-muted">Preparing photos…</p>
       ) : (
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-3 gap-2">
@@ -113,13 +113,13 @@ export function AddItemSheet({
           </div>
           <TypeToggle value={type} onChange={setType} />
           {photos.length === 1 && (
-            <label className="flex flex-col gap-1 text-sm font-medium">
+            <label className="eyebrow flex flex-col gap-1.5">
               Name (optional)
               <input
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 maxLength={60}
-                className="rounded-lg border border-stone-300 px-3 py-2 text-base"
+                className="field"
               />
             </label>
           )}

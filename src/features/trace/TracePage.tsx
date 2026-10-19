@@ -109,12 +109,12 @@ function TraceEditor({
         <Button variant="ghost" onClick={() => navigate(`/wardrobes/${wardrobe.id}`)}>
           Cancel
         </Button>
-        <h1 className="truncate text-base font-semibold">{wardrobe.name}</h1>
+        <h1 className="caps truncate text-lg">{wardrobe.name}</h1>
         <Button onClick={handleDone} disabled={saveSections.isPending}>
           Done
         </Button>
       </div>
-      <p className="text-center text-sm text-stone-600">Drag on the photo to mark a shelf, drawer or rail.</p>
+      <p className="eyebrow text-center">Drag on the photo to mark a shelf, drawer or rail.</p>
 
       <PhotoStage
         ref={stageRef}
@@ -140,21 +140,21 @@ function TraceEditor({
         ))}
         {gestures.drawRect && (
           <div
-            className="pointer-events-none absolute border-2 border-dashed border-white bg-white/20"
+            className="pointer-events-none absolute border-2 border-dashed border-accent bg-accent/15"
             style={rectToStyle(gestures.drawRect)}
           />
         )}
       </PhotoStage>
 
       {selected && (
-        <div className="flex items-center gap-2 rounded-xl bg-white p-2 shadow-sm ring-1 ring-stone-200">
+        <div className="flex items-center gap-2 border border-line bg-surface p-2">
           <input
             aria-label="Section name"
             placeholder={sectionLabel(undefined, indexOf.get(selected.id) ?? 0)}
             value={selected.name ?? ''}
             onChange={(event) => rename(selected, event.target.value)}
             maxLength={40}
-            className="min-w-0 flex-1 rounded-lg border border-stone-300 px-3 py-2 text-base"
+            className="field min-w-0 flex-1"
           />
           <Button variant="danger" onClick={() => requestDelete(selected)}>
             Delete

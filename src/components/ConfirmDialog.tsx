@@ -18,7 +18,7 @@ export function ConfirmDialog({
 }) {
   return (
     <Dialog title={title} onClose={onCancel}>
-      <p className="text-sm text-stone-600">{message}</p>
+      <p className="text-sm text-text3">{message}</p>
       <div className="mt-5 flex justify-end gap-2">
         <Button variant="ghost" onClick={onCancel}>
           Cancel

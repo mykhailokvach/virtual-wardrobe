@@ -3,16 +3,25 @@ import type { ButtonHTMLAttributes } from 'react';
 type Variant = 'primary' | 'secondary' | 'danger' | 'ghost';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-stone-900 text-white hover:bg-stone-700',
-  secondary: 'bg-white text-stone-900 ring-1 ring-stone-300 hover:bg-stone-100',
-  danger: 'bg-red-600 text-white hover:bg-red-500',
-  ghost: 'text-stone-700 hover:bg-stone-100',
+  primary: 'bg-accent text-on-accent shadow-[inset_0_-2px_0_var(--accent-edge)] hover:bg-accent-hover',
+  secondary: 'border border-line2 text-text hover:border-line3 hover:bg-plate',
+  danger: 'border border-line2 text-danger hover:border-danger',
+  ghost: 'text-muted hover:text-text',
 };
 
 /** Shared so links can look like buttons. min-h-11 keeps a 44px touch target. */
 export function buttonClass(variant: Variant = 'primary', extra = ''): string {
-  return `inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-medium transition disabled:opacity-50 ${variants[variant]} ${extra}`;
+  return `caps inline-flex min-h-11 items-center justify-center gap-2 px-4 text-sm transition disabled:opacity-40 ${variants[variant]} ${extra}`;
 }
+
+/** One option of a segmented control; place options side by side inside `segmentGroupClass`. */
+export function segmentClass(selected: boolean): string {
+  return `caps min-h-10 flex-1 px-3 text-xs transition not-first:border-l not-first:border-line2 ${
+    selected ? 'bg-inv text-on-inv' : 'text-muted hover:text-text'
+  }`;
+}
+
+export const segmentGroupClass = 'flex border border-line2';
 
 export function Button({
   variant = 'primary',

@@ -21,7 +21,7 @@ export function RemoveSectionDialog({
 
   return (
     <Dialog title={`Delete ${label}?`} onClose={onCancel}>
-      <p className="text-sm text-stone-600">
+      <p className="text-sm text-text3">
         This section has {itemCount} {itemCount === 1 ? 'item' : 'items'}.
       </p>
       {targets.length > 0 && (
@@ -30,7 +30,7 @@ export function RemoveSectionDialog({
             aria-label="Move items to"
             value={target}
             onChange={(event) => setTarget(event.target.value)}
-            className="min-w-0 flex-1 rounded-lg border border-stone-300 px-2 py-2 text-base"
+            className="field min-w-0 flex-1"
           >
             {targets.map((t) => (
               <option key={t.id} value={t.id}>

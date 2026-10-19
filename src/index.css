@@ -1,5 +1,150 @@
 @import "tailwindcss";
+@source not "../docs";
 
-html {
-  -webkit-tap-highlight-color: transparent;
+/*
+ * Theme: a dark, technical workshop look (charcoal, warm off-white, one yellow accent,
+ * square corners, condensed uppercase labels, mono numbers). Dark is the default;
+ * `data-theme="light"` on <html> switches to the warm-paper light palette.
+ */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #141516;
+  --surface: #1b1c1e;
+  --plate: #202225;
+  --line: #2c2f33;
+  --line2: #3a3d42;
+  --line3: #45474b;
+  --text: #e9e7e2;
+  --text2: #c9c6bf;
+  --text3: #a9a69f;
+  --muted: #8f8c86;
+  --dim: #6c6a65;
+  --accent: #f2cf3a;
+  --accent-hover: #ffe07a;
+  --accent-text: #f2cf3a;
+  --accent-edge: #b8961c;
+  --on-accent: #141516;
+  --inv: #e9e7e2;
+  --on-inv: #141516;
+  --success: #7fc99a;
+  --danger: #e58a7c;
+  --row-sel: #2b2a1f;
+  --overlay: #0a0a0bb8;
+  --shadow: 0 18px 40px #00000080;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f1efea;
+  --surface: #fbfaf7;
+  --plate: #e3e0d9;
+  --line: #dcd8d0;
+  --line2: #c4bfb5;
+  --line3: #b3ada2;
+  --text: #1c1d1f;
+  --text2: #3a3b3e;
+  --text3: #5c5a55;
+  --muted: #6f6c65;
+  --dim: #958f86;
+  --accent: #f2cf3a;
+  --accent-hover: #ffe07a;
+  --accent-text: #866a00;
+  --accent-edge: #b8961c;
+  --on-accent: #141516;
+  --inv: #1c1d1f;
+  --on-inv: #f1efea;
+  --success: #2f7d4f;
+  --danger: #b5402f;
+  --row-sel: #f3ecc8;
+  --overlay: #28262273;
+  --shadow: 0 18px 40px #28262240;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-plate: var(--plate);
+  --color-line: var(--line);
+  --color-line2: var(--line2);
+  --color-line3: var(--line3);
+  --color-text: var(--text);
+  --color-text2: var(--text2);
+  --color-text3: var(--text3);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-text: var(--accent-text);
+  --color-accent-edge: var(--accent-edge);
+  --color-on-accent: var(--on-accent);
+  --color-inv: var(--inv);
+  --color-on-inv: var(--on-inv);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-row-sel: var(--row-sel);
+  --color-overlay: var(--overlay);
+  --shadow-panel: var(--shadow);
+  --font-sans: "Sofia Sans", system-ui, sans-serif;
+  --font-cond: "Sofia Sans Condensed", "Arial Narrow", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Condensed uppercase label used for buttons, tabs and titles. */
+@utility caps {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Small muted section label. */
+@utility eyebrow {
+  font-family: var(--font-cond);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+/* Text inputs and selects. 16px text stops iOS Safari from zooming on focus. */
+@utility field {
+  min-height: 2.75rem;
+  border: 1px solid var(--line2);
+  background: var(--bg);
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  /* Reset what a surrounding .eyebrow label would otherwise pass down. */
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  outline: none;
+  &:focus,
+  &:focus-visible {
+    border-color: var(--accent);
+    outline: none;
+  }
+  &::placeholder {
+    color: var(--dim);
+  }
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
 }
