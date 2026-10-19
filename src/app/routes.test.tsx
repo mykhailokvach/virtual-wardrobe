@@ -27,3 +27,44 @@ describe('not found', () => {
     expect(await screen.findByRole('heading', { name: 'Not found' })).toBeInTheDocument();
   });
 });
+
+describe('wardrobe view', () => {
+  it('shows sections with their item counts', async () => {
+    const repository = createTestRepository();
+    const wardrobe = await repository.createWardrobe('Closet', testPhoto());
+    const [shelf] = await repository.saveSections(
+      wardrobe.id,
+      [{ id: 'shelf', name: 'Top shelf', rect: { x: 0.1, y: 0.1, w: 0.5, h: 0.2 } }],
+      {},
+    );
+    await repository.addItems(shelf.id, [
+      { type: 'clothes', photo: testPhoto() },
+      { type: 'shoes', photo: testPhoto() },
+      { type: 'shoes', photo: testPhoto() },
+    ]);
+
+    renderRoute(`/wardrobes/${wardrobe.id}`, { repository });
+
+    const link = await screen.findByRole('link', { name: 'Open Top shelf' });
+    expect(link).toHaveAttribute('href', `/wardrobes/${wardrobe.id}/sections/shelf`);
+    expect(await screen.findByText('👕 1 · 👟 2')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add item to Top shelf' })).toBeInTheDocument();
+  });
+
+  it('prompts to trace when there are no sections', async () => {
+    const repository = createTestRepository();
+    const wardrobe = await repository.createWardrobe('Closet', testPhoto());
+
+    renderRoute(`/wardrobes/${wardrobe.id}`, { repository });
+
+    expect(await screen.findByRole('link', { name: 'Trace sections' })).toHaveAttribute(
+      'href',
+      `/wardrobes/${wardrobe.id}/edit`,
+    );
+  });
+
+  it('shows not found for an unknown wardrobe', async () => {
+    renderRoute('/wardrobes/missing');
+    expect(await screen.findByRole('heading', { name: 'Not found' })).toBeInTheDocument();
+  });
+});
