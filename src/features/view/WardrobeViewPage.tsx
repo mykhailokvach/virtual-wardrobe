@@ -8,6 +8,7 @@ import { useToast } from '../../components/Toast';
 import { useDeleteWardrobe, usePhoto, useSectionCounts, useSections, useWardrobe } from '../../data/hooks';
 import { errorMessage } from '../../lib/errors';
 import { sectionLabel } from '../../lib/labels';
+import { AddItemSheet } from '../section/AddItemSheet';
 import { SectionHotspot } from './SectionHotspot';
 
 export function WardrobeViewPage() {
@@ -20,6 +21,7 @@ export function WardrobeViewPage() {
   const photo = usePhoto(wardrobe.data?.photoId);
   const deleteWardrobe = useDeleteWardrobe();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [adding, setAdding] = useState<{ sectionId: string; label: string; files: File[] } | null>(null);
 
   if (wardrobe.isPending || sections.isPending || (wardrobe.data && photo.isPending)) return null;
   if (!wardrobe.data || !photo.data) return <NotFound what="wardrobe" />;
@@ -54,8 +56,9 @@ export function WardrobeViewPage() {
             section={section}
             label={sectionLabel(section.name, section.order)}
             counts={counts.data?.[section.id]}
-            // Replaced in Task 15 with the add-item sheet.
-            onAdd={() => navigate(`/wardrobes/${current.id}/sections/${section.id}`)}
+            onAdd={(files) =>
+              setAdding({ sectionId: section.id, label: sectionLabel(section.name, section.order), files })
+            }
           />
         ))}
       </PhotoStage>
@@ -82,6 +85,15 @@ export function WardrobeViewPage() {
               onError: (error) => toast(errorMessage(error)),
             })
           }
+        />
+      )}
+
+      {adding && (
+        <AddItemSheet
+          sectionId={adding.sectionId}
+          sectionLabel={adding.label}
+          files={adding.files}
+          onClose={() => setAdding(null)}
         />
       )}
 
