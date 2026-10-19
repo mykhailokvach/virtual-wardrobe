@@ -19,7 +19,9 @@ export function ItemDetail({ item, sections, onClose }: { item: Item; sections: 
   const label = itemLabel(item);
 
   function update(patch: ItemPatch, onSuccess?: () => void) {
-    updateItem.mutate({ id: item.id, patch }, { onSuccess, onError: (error) => toast(errorMessage(error)) });
+    // mutateAsync rather than mutate callbacks: moving the item out of this section can unmount this dialog
+    // before the mutation settles, and TanStack Query skips per-call callbacks once the observer is gone.
+    updateItem.mutateAsync({ id: item.id, patch }).then(onSuccess, (error) => toast(errorMessage(error)));
   }
 
   function saveName() {
@@ -70,7 +72,7 @@ export function ItemDetail({ item, sections, onClose }: { item: Item; sections: 
             <Button
               variant="danger"
               disabled={deleteItem.isPending}
-              onClick={() => deleteItem.mutate(item.id, { onSuccess: onClose, onError: (e) => toast(errorMessage(e)) })}
+              onClick={() => deleteItem.mutateAsync(item.id).then(onClose, (e) => toast(errorMessage(e)))}
             >
               Really delete?
             </Button>
