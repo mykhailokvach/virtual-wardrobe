@@ -21,6 +21,8 @@ export interface WardrobeRepository {
   listWardrobes(): Promise<Wardrobe[]>;
   getWardrobe(id: string): Promise<Wardrobe | null>;
   createWardrobe(name: string, photo: NewPhoto): Promise<Wardrobe>;
+  /** Trims the name; a blank name or unknown id is an error. */
+  renameWardrobe(id: string, name: string): Promise<Wardrobe>;
   /** Also deletes its sections, items and every photo. */
   deleteWardrobe(id: string): Promise<void>;
 

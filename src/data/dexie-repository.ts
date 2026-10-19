@@ -50,6 +50,18 @@ export class DexieRepository implements WardrobeRepository {
     return wardrobe;
   }
 
+  async renameWardrobe(id: string, name: string): Promise<Wardrobe> {
+    const trimmed = name.trim();
+    if (!trimmed) throw new Error('A wardrobe name is required');
+    return this.db.transaction('rw', this.db.wardrobes, async () => {
+      const wardrobe = await this.db.wardrobes.get(id);
+      if (!wardrobe) throw new NotFoundError(`Wardrobe ${id} not found`);
+      const renamed: Wardrobe = { ...wardrobe, name: trimmed, updatedAt: Date.now() };
+      await this.db.wardrobes.put(renamed);
+      return renamed;
+    });
+  }
+
   async deleteWardrobe(id: string): Promise<void> {
     const { wardrobes, sections, items, photos } = this.db;
     await this.db.transaction('rw', [wardrobes, sections, items, photos], async () => {

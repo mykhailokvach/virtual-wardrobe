@@ -51,6 +51,24 @@ describe('wardrobes', () => {
     expect((await repo.listWardrobes()).map((w) => w.name)).toEqual(['New', 'Old']);
   });
 
+  it('renames a wardrobe, trimming the name', async () => {
+    const wardrobe = await repo.createWardrobe('Closet', testPhoto());
+
+    vi.spyOn(Date, 'now').mockReturnValue(wardrobe.updatedAt + 1000);
+    const renamed = await repo.renameWardrobe(wardrobe.id, '  Hallway closet ');
+
+    expect(renamed).toEqual({ ...wardrobe, name: 'Hallway closet', updatedAt: wardrobe.updatedAt + 1000 });
+    expect(await repo.getWardrobe(wardrobe.id)).toEqual(renamed);
+  });
+
+  it('refuses a blank name or an unknown wardrobe', async () => {
+    const wardrobe = await repo.createWardrobe('Closet', testPhoto());
+
+    await expect(repo.renameWardrobe(wardrobe.id, '   ')).rejects.toThrow(/name/i);
+    await expect(repo.renameWardrobe('missing', 'Hallway')).rejects.toThrow(/not found/i);
+    expect((await repo.getWardrobe(wardrobe.id))?.name).toBe('Closet');
+  });
+
   it('deletes a wardrobe with its sections, items and photos', async () => {
     const { wardrobe, sections } = await wardrobeWithSections();
     const [item] = await repo.addItems(sections[0].id, [{ type: 'shoes', photo: testPhoto() }]);

@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { createTestRepository, testPhoto } from '../test/fixtures';
 import { renderRoute } from '../test/render';
@@ -50,6 +50,36 @@ describe('wardrobe view', () => {
     expect(await screen.findByRole('img', { name: 'Clothes: 1' })).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Shoes: 2' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Add item to Top shelf' })).toBeInTheDocument();
+  });
+
+  it('renames the wardrobe', async () => {
+    const repository = createTestRepository();
+    const wardrobe = await repository.createWardrobe('Closet', testPhoto());
+
+    const { user } = renderRoute(`/wardrobes/${wardrobe.id}`, { repository });
+
+    await user.click(await screen.findByRole('button', { name: 'Rename wardrobe' }));
+    const dialog = screen.getByRole('dialog', { name: 'Rename wardrobe' });
+    const input = within(dialog).getByLabelText('Name');
+    expect(input).toHaveValue('Closet');
+    await user.clear(input);
+    await user.type(input, 'Hallway closet{Enter}');
+
+    expect(await screen.findByRole('heading', { name: 'Hallway closet' })).toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect((await repository.getWardrobe(wardrobe.id))?.name).toBe('Hallway closet');
+  });
+
+  it('keeps the name when the rename is blank', async () => {
+    const repository = createTestRepository();
+    const wardrobe = await repository.createWardrobe('Closet', testPhoto());
+
+    const { user } = renderRoute(`/wardrobes/${wardrobe.id}`, { repository });
+
+    await user.click(await screen.findByRole('button', { name: 'Rename wardrobe' }));
+    const dialog = screen.getByRole('dialog', { name: 'Rename wardrobe' });
+    await user.clear(within(dialog).getByLabelText('Name'));
+    expect(within(dialog).getByRole('button', { name: 'Save' })).toBeDisabled();
   });
 
   it('prompts to trace when there are no sections', async () => {

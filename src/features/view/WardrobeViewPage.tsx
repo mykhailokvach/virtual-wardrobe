@@ -4,12 +4,13 @@ import { NotFound } from '../../app/NotFound';
 import { Button, buttonClass } from '../../components/Button';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { PhotoStage } from '../../components/PhotoStage';
-import { TrashIcon } from '../../components/icons';
+import { PencilIcon, TrashIcon } from '../../components/icons';
 import { useToast } from '../../components/Toast';
 import { useDeleteWardrobe, usePhoto, useSectionCounts, useSections, useWardrobe } from '../../data/hooks';
 import { errorMessage } from '../../lib/errors';
 import { sectionLabel } from '../../lib/labels';
 import { AddItemSheet } from '../section/AddItemSheet';
+import { RenameWardrobeDialog } from './RenameWardrobeDialog';
 import { SectionHotspot } from './SectionHotspot';
 
 export function WardrobeViewPage() {
@@ -22,6 +23,7 @@ export function WardrobeViewPage() {
   const photo = usePhoto(wardrobe.data?.photoId);
   const deleteWardrobe = useDeleteWardrobe();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [renaming, setRenaming] = useState(false);
   const [adding, setAdding] = useState<{ sectionId: string; label: string; files: File[] } | null>(null);
 
   if (wardrobe.isPending || sections.isPending || (wardrobe.data && photo.isPending)) return null;
@@ -33,7 +35,12 @@ export function WardrobeViewPage() {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="caps truncate text-2xl">{current.name}</h1>
+        <div className="flex min-w-0 items-center gap-1">
+          <h1 className="caps truncate text-2xl">{current.name}</h1>
+          <Button variant="ghost" className="min-h-9 w-9 shrink-0 px-0" aria-label="Rename wardrobe" onClick={() => setRenaming(true)}>
+            <PencilIcon className="h-4 w-4" />
+          </Button>
+        </div>
         <div className="flex shrink-0 gap-1">
           <Link to={`/wardrobes/${current.id}/edit`} className={buttonClass('secondary')}>
             Edit layout
@@ -72,6 +79,8 @@ export function WardrobeViewPage() {
           </Link>
         </div>
       )}
+
+      {renaming && <RenameWardrobeDialog wardrobe={current} onClose={() => setRenaming(false)} />}
 
       {confirmDelete && (
         <ConfirmDialog

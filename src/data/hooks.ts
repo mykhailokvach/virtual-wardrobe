@@ -63,6 +63,19 @@ export function useCreateWardrobe() {
   });
 }
 
+export function useRenameWardrobe(id: string) {
+  const repo = useRepository();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (name: string) => repo.renameWardrobe(id, name),
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.wardrobes }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.wardrobe(id) }),
+      ]),
+  });
+}
+
 export function useDeleteWardrobe() {
   const repo = useRepository();
   const queryClient = useQueryClient();
