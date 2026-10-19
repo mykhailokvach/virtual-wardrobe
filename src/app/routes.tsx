@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router';
+import { SectionSheet } from '../features/section/SectionSheet';
 import { TracePage } from '../features/trace/TracePage';
 import { WardrobeViewPage } from '../features/view/WardrobeViewPage';
 import { NewWardrobePage } from '../features/wardrobes/NewWardrobePage';
@@ -14,7 +15,11 @@ export const routes: RouteObject[] = [
       { index: true, element: <WardrobeListPage /> },
       { path: 'wardrobes/new', element: <NewWardrobePage /> },
       { path: 'wardrobes/:wardrobeId/edit', element: <TracePage /> },
-      { path: 'wardrobes/:wardrobeId', element: <WardrobeViewPage /> },
+      {
+        path: 'wardrobes/:wardrobeId',
+        element: <WardrobeViewPage />,
+        children: [{ path: 'sections/:sectionId', element: <SectionSheet /> }],
+      },
       { path: '*', element: <NotFound /> },
     ],
   },
