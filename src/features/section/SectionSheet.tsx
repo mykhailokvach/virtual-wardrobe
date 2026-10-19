@@ -8,6 +8,7 @@ import { useItems, useSections } from '../../data/hooks';
 import type { ItemType } from '../../data/types';
 import { itemLabel, sectionLabel } from '../../lib/labels';
 import { AddItemSheet } from './AddItemSheet';
+import { ItemDetail } from './ItemDetail';
 
 type Filter = 'all' | ItemType;
 
@@ -24,6 +25,7 @@ export function SectionSheet() {
   const items = useItems(sectionId);
   const [filter, setFilter] = useState<Filter>('all');
   const [adding, setAdding] = useState<File[] | null>(null);
+  const [openItemId, setOpenItemId] = useState<string | null>(null);
   const close = useCallback(() => navigate(`/wardrobes/${wardrobeId}`), [navigate, wardrobeId]);
 
   if (sections.isPending) return null;
@@ -38,6 +40,7 @@ export function SectionSheet() {
 
   const label = sectionLabel(section.name, section.order);
   const visible = (items.data ?? []).filter((item) => filter === 'all' || item.type === filter);
+  const openItem = items.data?.find((item) => item.id === openItemId);
 
   return (
     <>
@@ -76,7 +79,13 @@ export function SectionSheet() {
           <ul className="mt-3 grid grid-cols-3 gap-2">
             {visible.map((item) => (
               <li key={item.id}>
-                <PhotoImg photoId={item.photoId} alt={itemLabel(item)} className="aspect-square w-full rounded-xl object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setOpenItemId(item.id)}
+                  className="block w-full overflow-hidden rounded-xl bg-stone-100"
+                >
+                  <PhotoImg photoId={item.photoId} alt={itemLabel(item)} className="aspect-square w-full object-cover" />
+                </button>
               </li>
             ))}
           </ul>
@@ -84,6 +93,9 @@ export function SectionSheet() {
       </Sheet>
       {adding && (
         <AddItemSheet sectionId={section.id} sectionLabel={label} files={adding} onClose={() => setAdding(null)} />
+      )}
+      {openItem && (
+        <ItemDetail item={openItem} sections={sections.data ?? []} onClose={() => setOpenItemId(null)} />
       )}
     </>
   );
