@@ -4,11 +4,12 @@ import { rectToStyle, type Corner } from '../../lib/geometry';
 
 const CORNERS: Corner[] = ['nw', 'ne', 'sw', 'se'];
 
+// 16px handles centred on the 2px border line: 8px half-size + 1px half-border (children sit inside the border).
 const cornerClass: Record<Corner, string> = {
-  nw: '-top-3 -left-3 cursor-nwse-resize',
-  ne: '-top-3 -right-3 cursor-nesw-resize',
-  sw: '-bottom-3 -left-3 cursor-nesw-resize',
-  se: '-right-3 -bottom-3 cursor-nwse-resize',
+  nw: '-top-[9px] -left-[9px] cursor-nwse-resize',
+  ne: '-top-[9px] -right-[9px] cursor-nesw-resize',
+  sw: '-bottom-[9px] -left-[9px] cursor-nesw-resize',
+  se: '-right-[9px] -bottom-[9px] cursor-nwse-resize',
 };
 
 export function TraceRect({
