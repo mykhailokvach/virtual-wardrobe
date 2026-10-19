@@ -39,6 +39,11 @@ Photo    { id, blob, width, height, mime }
 
 All ids are UUIDs. Photos are stored separately so lists stay light.
 
+Implementation refinements (decided while planning):
+- `Photo` stores `data: ArrayBuffer` and `mime` instead of a `Blob`. This avoids Safari's IndexedDB blob bugs and works in `fake-indexeddb`.
+- `Item` also stores `wardrobeId` (denormalized) so per-section counts and cascading deletes are single indexed queries.
+- The section overlay is made of absolutely-positioned elements in percent units rather than SVG. It uses the same 0–1 coordinate model, but labels, badges and touch handles don't get distorted.
+
 ## Storage layer
 
 - `WardrobeRepository` interface (`listWardrobes`, `getWardrobe`, `createWardrobe`, `deleteWardrobe`, `saveSections`, `deleteSection`, `listItems`, `addItem`, `updateItem`, `deleteItem`, `getPhoto`, …).
