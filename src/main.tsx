@@ -13,7 +13,9 @@ import '@fontsource/sofia-sans-condensed/600.css';
 import '@fontsource/sofia-sans-condensed/700.css';
 import './index.css';
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes, {
+  basename: import.meta.env.BASE_URL.replace(/\/$/, ''),
+});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
